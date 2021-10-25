@@ -1,7 +1,18 @@
 .toggle-planet {
-    margin-bottom: 1rem;
+    margin-left: 1rem;
+    margin-bottom: 2rem;
 }
 
 .app {
-    padding: 10px;
+    padding: 30px;
+}
+
+.button-row {
+    width: auto;
+    height: auto;
+    margin: 0 0 2rem 0;
+}
+
+.button-row button {
+    margin-right: 1rem;
 }

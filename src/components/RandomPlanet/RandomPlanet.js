@@ -7,19 +7,19 @@ import PlanetView from "./PlanetView";
 
 class RandomPlanet extends Component {
 
-    componentDidMount() {
-        this.updatePlanet()
-        setInterval(this.updatePlanet, 3000)
-    }
-
-    componentWillUnmount() {
-        clearInterval(this.updatePlanet)
-    }
-
     state = {
         planet: {},
         isLoading: true,
         isError: false
+    }
+
+    componentDidMount() {
+        this.updatePlanet()
+        setInterval(this.updatePlanet, 9000)
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.updatePlanet)
     }
 
     onPlanetLoaded = (planet) => {
