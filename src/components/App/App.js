@@ -8,7 +8,7 @@ import RandomPlanet from "../RandomPlanet";
 class App extends Component {
     render() {
         return (
-            <div>
+            <div className={'app'}>
                 <Header />
                 <RandomPlanet/>
 
