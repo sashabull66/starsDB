@@ -1,2 +1,2 @@
-import PlanetDetalis from "../PersonDetalis";
+import PlanetDetalis from "../ItemDetalis";
 export default PlanetDetalis

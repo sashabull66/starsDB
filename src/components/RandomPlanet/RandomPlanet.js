@@ -2,36 +2,27 @@ import React, {Component} from 'react';
 import './RandomPlanet.css'
 import {swapi} from "../../services/swapi/SwapiService";
 import Spinner from "../Spinner";
-import ErrorComponent from "../ErrorComponent";
 import PlanetView from "./PlanetView";
+import ErrorBoundry from "../ErrorBoundry";
 
 class RandomPlanet extends Component {
 
     state = {
         planet: {},
         isLoading: true,
-        isError: false
     }
 
     componentDidMount() {
         this.updatePlanet()
-        setInterval(this.updatePlanet, 5000)
+        this.interval = setInterval(this.updatePlanet, 5000)
     }
 
-    componentWillUnmount() {
-        clearInterval(this.updatePlanet)
+    componentWillUnmount() { // чищу таймер
+        clearInterval(this.interval)
     }
 
     onPlanetLoaded = (planet) => {
         this.setState({planet, isLoading: false})
-    }
-
-    onError = (error) => {
-        console.error(error)
-        this.setState({
-            isLoading: false,
-            isError: true
-        })
     }
 
     updatePlanet = () => {
@@ -40,20 +31,19 @@ class RandomPlanet extends Component {
             .then((planet) => {
                 this.onPlanetLoaded(planet)
             })
-            .catch(this.onError)
     }
 
     render() {
-        const {isLoading, planet, isError} = this.state
-        const preloader = isLoading && !isError && <Spinner/>
-        const content = !isLoading && !isError && <PlanetView {...planet}/>
-        const error = isError && <ErrorComponent/>
+        const {isLoading, planet} = this.state
+        const preloader = isLoading  && <Spinner/>
+        const content = !isLoading && <PlanetView {...planet}/>
         return (
-            <div className='random-planet jumbotron rounded'>
-                {preloader}
-                {content}
-                {error}
-            </div>
+            <ErrorBoundry>
+                <div className='random-planet jumbotron rounded'>
+                    {preloader}
+                    {content}
+                </div>
+            </ErrorBoundry>
         )
     }
 }

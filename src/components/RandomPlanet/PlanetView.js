@@ -1,41 +1,15 @@
 import React, {Component} from 'react';
 
 class PlanetView extends Component {
-    state = {
-        mYId: null
-    }
-    componentDidMount() { // проверка на валидность картинки
-        fetch(`https://starwars-visualguide.com/assets/img/planets/${this.props.id}.jpg`)
-            .then(res=>{
-            if (res.status < 400) {
-                return null
-            }
-            else {
-                this.setState({
-                    mYId: 5
-                })
-            }
-        })
-            .catch(error=>console.log(error))
-    }
-
-    componentWillUnmount() {
-        this.setState({
-            mYId: null
-        })
-    }
-
     render() {
         const {name, population, rotationPeriod, diameter, id} = this.props
         return (
             <>
                 <img className="planet-image"
-                     /*onError={()=>{
-                         this.setState({
-                             mYId: 5
-                         })
-                     }}*/
-                     src={`https://starwars-visualguide.com/assets/img/planets/${this.state.mYId || id}.jpg`}
+                     onError={(e)=>{
+                         e.target.src = 'https://starwars-visualguide.com/assets/img/planets/5.jpg'
+                     }}
+                     src={`https://starwars-visualguide.com/assets/img/planets/${id}.jpg`}
                      alt="planet"/>
                 <div>
                     <h4>{name}</h4>

@@ -1,10 +1,11 @@
 class SwapiService {
     _startUrl = 'https://swapi.dev/api/';
-    _extractId(item) {
+    _startImageUrl = 'https://starwars-visualguide.com/assets/img/'
+    _extractId = (item) => {
         const idRegExp = /\/([0-9]*)\/$/;
         return item.url.match(idRegExp)[1];
     };
-    _transformPlanet(planet) {
+    _transformPlanet = (planet) => {
         const id = this._extractId(planet)
         return {
             id,
@@ -14,31 +15,31 @@ class SwapiService {
             diameter: planet.diameter
         }
     };
-    _transformStarShip(ship) {
+    _transformStarShip = (ship) => {
         const id = this._extractId(ship)
         return {
             id,
             name: ship.name,
             model: ship.model,
             manufacturer: ship.manufacturer,
-            costInCredit: ship.costInCredit,
+            costInCredit: ship.cost_in_credits,
             length: ship.length,
             crew: ship.crew,
             passengers: ship.passengers,
             cargoCapacity: ship.cargoCapacity
         }
     };
-    _transformPerson(person) {
+    _transformPerson = (person) => {
         const id = this._extractId(person)
         return {
             id,
             name: person.name,
             gender: person.gender,
-            birthYear: person.birthYear,
-            eyeColor: person.eyeColor
+            birthYear: person.birth_year,
+            eyeColor: person.eye_color
         }
     };
-    async _fetchToSwapi(url) {
+    _fetchToSwapi = async (url) => {
         const f = await fetch(this._startUrl + url.toString())
         if (!f.ok) {
             throw new Error(`Not fetch url ${url}. Error status - ${f.status}`)
@@ -46,30 +47,38 @@ class SwapiService {
         return await f.json()
     };
 
-    async getAllStarship() {
+    getAllStarship = async () => {
         const starships = await this._fetchToSwapi('starships')
         return starships.results.map(people=>this._transformStarShip(people))
     };
-    async getStarship(id) {
+    getStarship = async (id) => {
         const starship = await this._fetchToSwapi(`starships/${id}`)
         return this._transformStarShip(starship)
     };
-    async getAllPeople() {
+    getAllPeople = async () => {
         const peoples = await this._fetchToSwapi('people')
         return peoples.results.map(people=>this._transformPerson(people))
     };
-    async getPeople(id) {
+    getPeople = async (id) => {
         const people = await this._fetchToSwapi(`people/${id}`)
         return this._transformPerson(people)
     };
-    async getAllPlanets() {
+    getAllPlanets = async () => {
         const planets = await this._fetchToSwapi('planets')
         return planets.results.map(planet => this._transformPlanet(planet))
     };
-    async getPlanet(id) {
+    getPlanet = async (id) => {
         const planet = await this._fetchToSwapi(`planets/${id}`)
         return this._transformPlanet(planet)
     };
+    getPersonImage = ({id}) => {
+        return `${this._startImageUrl}characters/${id}.jpg`
+    };
+    getStarshipImage = ({id}) => {
+        return `${this._startImageUrl}starships/${id}.jpg`
+    };
+    getPlanetImage = ({id}) => {
+        return `${this._startImageUrl}planets/${id}.jpg`
+    };
 }
-
 export const swapi = new SwapiService();

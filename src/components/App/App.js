@@ -1,25 +1,22 @@
 import React, {Component} from 'react';
 import './App.css'
 import Header from "../Header";
-import ItemList from "../ItemList";
-import PersonDetalis from "../PersonDetalis";
 import RandomPlanet from "../RandomPlanet";
+import ErrorBoundry from "../ErrorBoundry";
+import Row from "../Row";
+import ItemDetalis from "../ItemDetalis";
+import {swapi} from "../../services/swapi/SwapiService";
+import {Record} from "../ItemDetalis/ItemDetalis";
+
 
 class App extends Component {
 
     state = {
-        showRandomPlanet: true,
-        selectedPerson: null
-    }
-
-    onPersonSelected = (id) => {
-        this.setState({
-            selectedPerson: id
-        })
+        showRandomPlanet: false,
     }
 
     showPlanetHandler = () => {
-        this.setState(prev=>{
+        this.setState(prev => {
             return {
                 showRandomPlanet: !prev.showRandomPlanet,
             }
@@ -27,23 +24,34 @@ class App extends Component {
     }
 
     render() {
-        const {showRandomPlanet, selectedPerson} = this.state
+        const {showRandomPlanet} = this.state
+        const personDetalis = (
+            <ItemDetalis itemId={5} getData={swapi.getPeople} getImageUrl={swapi.getPersonImage}>
+                <Record field='gender' label='Gender'/>
+                <Record field='eyeColor' label='Eye Color'/>
+            </ItemDetalis>)
+        const starshipDetalis = (
+            <ItemDetalis itemId={5} getData={swapi.getStarship} getImageUrl={swapi.getStarshipImage}>
+                <Record field='model' label='Model'/>
+                <Record field='length' label='Length'/>
+                <Record field='costInCredit' label='Cost'/>
+            </ItemDetalis>)
         return (
-            <div className={'app'}>
-                <Header />
-                {showRandomPlanet && <RandomPlanet/>}
-                <div className='row mb2'>
-                    <button className='btn btn-warning btn-lg toggle-planet' onClick={this.showPlanetHandler}>On/Off Random Planet</button>
+            <ErrorBoundry>
+                <div className={'app'}>
+                    <Header/>
+                    {showRandomPlanet && <RandomPlanet/>}
+                    <Row left={
+                        <button
+                            className='btn btn-warning btn-lg toggle-planet'
+                            onClick={this.showPlanetHandler}>
+                            On/Off Random Planet
+                        </button>
+                    }/>
+
+                    <Row left={personDetalis} right={starshipDetalis}/>
                 </div>
-                <div className="row mb2">
-                    <div className="col-md-6">
-                        <ItemList onItemSelected={this.onPersonSelected} />
-                    </div>
-                    <div className="col-md-6">
-                        {selectedPerson && <PersonDetalis personId={selectedPerson}/>}
-                    </div>
-                </div>
-            </div>
+            </ErrorBoundry>
         );
     }
 }
