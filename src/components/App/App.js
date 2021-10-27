@@ -7,6 +7,7 @@ import Row from "../Row";
 import ItemDetalis from "../ItemDetalis";
 import {swapi} from "../../services/swapi/SwapiService";
 import {Record} from "../ItemDetalis/ItemDetalis";
+import ItemList from "../ItemList/ItemList";
 
 
 class App extends Component {
@@ -50,6 +51,7 @@ class App extends Component {
                     }/>
 
                     <Row left={personDetalis} right={starshipDetalis}/>
+                    <ItemList/>
                 </div>
             </ErrorBoundry>
         );

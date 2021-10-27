@@ -8,8 +8,6 @@ class ItemList extends Component {
         isLoading: true
     }
 
-
-
     componentDidMount() {
 
         const {getData} = this.props
@@ -46,4 +44,33 @@ class ItemList extends Component {
     }
 }
 
-export default ItemList;
+const withData = () => {
+    return class extends Component {
+
+        state = {
+            data: null,
+            loading: true
+        }
+
+/*        componentDidMount() {
+            const {getData} = this.props
+            getData()
+                .then(data => {
+                    this.setState({
+                        data,
+                        loading: false
+                    })
+                })
+        }*/
+
+        render() {
+            console.log(this.state)
+            console.log(this.props)
+            return (
+                <p>hi</p>
+            )
+        }
+    }
+}
+
+export default withData(ItemList)

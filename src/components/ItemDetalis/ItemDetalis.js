@@ -82,10 +82,10 @@ class PersonView extends Component {
                      alt="character"/>
 
                 <div className="card-body">
-                    <h4>{name || 'n/a'}</h4>
+                    <h4>{name}</h4>
                     <ul className="list-group list-group-flush">
                         {
-                            React.Children.map(this.props.children, child=>React.cloneElement(child, {item : {...this.props}}))
+                            React.Children.map(this.props.children, child => React.cloneElement(child, {item: {...this.props}}))
                         }
                     </ul>
                 </div>
