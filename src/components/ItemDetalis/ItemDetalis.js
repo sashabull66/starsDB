@@ -5,6 +5,9 @@ import Spinner from "../Spinner";
 
 export const Record = (props) => {
     const {item, field, label} = props
+    // item - весь объект,
+    // field - поле которое вытягиваю из объекта,
+    // label - название этого поля в дереве (title)
     return (
         <li className="list-group-item">
             <span className="term">{label}</span>
@@ -12,16 +15,6 @@ export const Record = (props) => {
         </li>
     )
 }
-
-/*export const Record = (props) => {
-    const { field, label} = props
-    return (
-        <li className="list-group-item">
-            <span className="term">{label}</span>
-            <span>{field}</span>
-        </li>
-    )
-}*/
 
 class ItemDetalis extends Component {
 
@@ -74,7 +67,7 @@ export default ItemDetalis;
 
 class PersonView extends Component {
     render() {
-        const {name, gender, birthYear, eyeColor, id, imageUrl} = this.props
+        const {name, imageUrl} = this.props
         return (
             <>
                 <img className="person-image"

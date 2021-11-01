@@ -4,10 +4,12 @@ import Header from "../Header";
 import RandomPlanet from "../RandomPlanet";
 import ErrorBoundry from "../ErrorBoundry";
 import Row from "../Row";
-import ItemDetalis from "../ItemDetalis";
+import {PersonList, PlanetList, StarShipList} from "../SwComponents";
+import {SwapiProvider} from "../SwapiServiceContext";
 import {swapi} from "../../services/swapi/SwapiService";
-import {Record} from "../ItemDetalis/ItemDetalis";
-import ItemList from "../ItemList/ItemList";
+import PersonDetalis from "../SwComponents/PersonDetalis";
+import StarShipDetalis from "../SwComponents/StarShipDetalis";
+import PlanetDetalis from "../SwComponents/PlanetDetalis";
 
 
 class App extends Component {
@@ -26,33 +28,34 @@ class App extends Component {
 
     render() {
         const {showRandomPlanet} = this.state
-        const personDetalis = (
-            <ItemDetalis itemId={5} getData={swapi.getPeople} getImageUrl={swapi.getPersonImage}>
-                <Record field='gender' label='Gender'/>
-                <Record field='eyeColor' label='Eye Color'/>
-            </ItemDetalis>)
-        const starshipDetalis = (
-            <ItemDetalis itemId={5} getData={swapi.getStarship} getImageUrl={swapi.getStarshipImage}>
-                <Record field='model' label='Model'/>
-                <Record field='length' label='Length'/>
-                <Record field='costInCredit' label='Cost'/>
-            </ItemDetalis>)
         return (
             <ErrorBoundry>
-                <div className={'app'}>
-                    <Header/>
-                    {showRandomPlanet && <RandomPlanet/>}
-                    <Row left={
-                        <button
-                            className='btn btn-warning btn-lg toggle-planet'
-                            onClick={this.showPlanetHandler}>
-                            On/Off Random Planet
-                        </button>
-                    }/>
+                <SwapiProvider value={swapi}>
+                    <div className={'app'}>
+                        <Header/>
+                        {showRandomPlanet && <RandomPlanet/>}
+                        <Row left={
+                            <button
+                                className='btn btn-warning btn-lg toggle-planet'
+                                onClick={this.showPlanetHandler}>
+                                On/Off Random Planet
+                            </button>
+                        }/>
 
-                    <Row left={personDetalis} right={starshipDetalis}/>
-                    <ItemList/>
-                </div>
+                        <PersonDetalis itemId={11}/>
+                        <StarShipDetalis itemId={5}/>
+                        <PlanetDetalis itemId={8}/>
+
+
+
+                        <PersonList/>
+                        <StarShipList/>
+                        <PlanetList/>
+
+
+
+                    </div>
+                </SwapiProvider>
             </ErrorBoundry>
         );
     }
