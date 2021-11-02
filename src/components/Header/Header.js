@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import './Header.css'
+import {NavLink} from "react-router-dom";
 
 class Header extends Component {
     render() {
@@ -7,12 +8,12 @@ class Header extends Component {
         return (
             <div className='header d-flex'>
                 <h3>
-                    <a href="/">Star DB</a>
+                    <NavLink to="/" exact>Star DB</NavLink>
                 </h3>
                 <ul className='d-flex'>
-                    <li><a href="/">People</a></li>
-                    <li><a href="/">Planets</a></li>
-                    <li><a href="/">Starship</a></li>
+                    <li><NavLink to="/people">People</NavLink></li>
+                    <li><NavLink to="/planets">Planets</NavLink></li>
+                    <li><NavLink to="/starships">Starship</NavLink></li>
                 </ul>
                 <button className='btn btn-primary btn-sm' onClick={onServiceChange}>
                     Change Service
