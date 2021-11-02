@@ -1,15 +1,10 @@
 import React from "react";
 import WithData from "../HOC/WithData";
 import ItemList from "../ItemList";
+import Compose from "../HOC/Compose";
 import {WithSwapi} from "../HOC/WithSwapi/WithSwapi";
+import WithChildFunction from "../HOC/WithChildFunction";
 
-const withChildFN = (Wrapper, FN) => {
-    return (props) => {
-        return <Wrapper {...props}>
-            {FN}
-        </Wrapper>
-    }
-}
 const mapPersonMethodsToProps = (sw) => ({
     getData: sw.getAllPeople
 })
@@ -19,10 +14,19 @@ const mapPlanetMethodsToProps = (sw) => ({
 const mapStarShipMethodsToProps = (sw) => ({
     getData: sw.getAllStarship
 })
-const PersonList = WithSwapi(WithData(withChildFN(ItemList, ({name}) => <span>{name}</span>)), mapPersonMethodsToProps);
-const PlanetList = WithSwapi(WithData(withChildFN(ItemList, ({name}) => <span>{name}</span>)), mapPlanetMethodsToProps);
-const StarShipList = WithSwapi(WithData(withChildFN(ItemList, ({name, model}) =>
-    <span>{name} ({model})</span>)), mapStarShipMethodsToProps);
+const showName = ({name}) => <span>{name}</span>
+const showNameAndModel = ({name, model}) => <span>{name} ({model})</span>
+
+const PersonList = Compose(
+    WithSwapi(mapPersonMethodsToProps),
+    WithData,
+    WithChildFunction(showName))(ItemList);
+const PlanetList = Compose(WithSwapi(mapPlanetMethodsToProps),
+    WithData,
+    WithChildFunction(showName))(ItemList);
+const StarShipList = Compose(WithSwapi(mapStarShipMethodsToProps),
+    WithData,
+    WithChildFunction(showNameAndModel))(ItemList);
 
 export {
     PersonList,

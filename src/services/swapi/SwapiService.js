@@ -1,4 +1,4 @@
-class SwapiService {
+export class SwapiService {
     _startUrl = 'https://swapi.dev/api/';
     _startImageUrl = 'https://starwars-visualguide.com/assets/img/'
     _extractId = (item) => {
@@ -80,5 +80,4 @@ class SwapiService {
     getPlanetImage = ({id}) => {
         return `${this._startImageUrl}planets/${id}.jpg`
     };
-}
-export const swapi = new SwapiService();
+};

@@ -3,56 +3,38 @@ import './App.css'
 import Header from "../Header";
 import RandomPlanet from "../RandomPlanet";
 import ErrorBoundry from "../ErrorBoundry";
-import Row from "../Row";
-import {PersonList, PlanetList, StarShipList} from "../SwComponents";
 import {SwapiProvider} from "../SwapiServiceContext";
-import {swapi} from "../../services/swapi/SwapiService";
-import PersonDetalis from "../SwComponents/PersonDetalis";
-import StarShipDetalis from "../SwComponents/StarShipDetalis";
-import PlanetDetalis from "../SwComponents/PlanetDetalis";
-
+import {SwapiService} from "../../services/swapi/SwapiService";
+import DummySwapiService from "../../services/DummySwapiService/DummySwapiService";
+import {PeoplePage, StarShipPage, PlanetPage} from "../pages";
 
 class App extends Component {
 
     state = {
-        showRandomPlanet: false,
+        apiService: new SwapiService()
     }
 
-    showPlanetHandler = () => {
-        this.setState(prev => {
+    onServiceChange = () => {
+        this.setState(({apiService}) => {
+            const service = apiService instanceof DummySwapiService ? SwapiService : DummySwapiService
             return {
-                showRandomPlanet: !prev.showRandomPlanet,
+                apiService: new service()
             }
         })
     }
 
     render() {
-        const {showRandomPlanet} = this.state
+        const {apiService} = this.state
         return (
             <ErrorBoundry>
-                <SwapiProvider value={swapi}>
+                <SwapiProvider value={apiService}>
                     <div className={'app'}>
-                        <Header/>
-                        {showRandomPlanet && <RandomPlanet/>}
-                        <Row left={
-                            <button
-                                className='btn btn-warning btn-lg toggle-planet'
-                                onClick={this.showPlanetHandler}>
-                                On/Off Random Planet
-                            </button>
-                        }/>
+                        <Header onServiceChange={this.onServiceChange}/>
+                        <RandomPlanet/>
 
-                        <PersonDetalis itemId={11}/>
-                        <StarShipDetalis itemId={5}/>
-                        <PlanetDetalis itemId={8}/>
-
-
-
-                        <PersonList/>
-                        <StarShipList/>
-                        <PlanetList/>
-
-
+                        <PeoplePage/>
+                        <PlanetPage/>
+                        <StarShipPage/>
 
                     </div>
                 </SwapiProvider>
